@@ -24,7 +24,7 @@ The one program is used for both client & server (determined at startup). Choose
 <li>Start the program on the client machine (sends input)</li>
 <li>Enter 'c' for client</li>
 <li>Enter '9876' as port (match server port)</li>
-<li>Enter server's IP</li>
+<li>Enter server's IP (example: 192.168.1.100)</li>
 <li>Wait a second. Client console should say "Client has successfully connected to server!" and a window will appear on client's side to generate events and send input to the server. Done!</li>
 </ol>
 <b>To close the client, click the window's X or enter 'q' in the client's console. This will electively close the server as well.</b><br>
