@@ -13,8 +13,8 @@ The one program is used for both client & server (determined at startup). Choose
 </ul>
 
 # Negated and forwarded keys/combos
-<b>While the client window has focus, the client will forward these keys to sim on the server without letting the keys' functions play out on the host.<br>
-Print Screen</b><br>
+<b>While the client window has focus, the client will forward these keys to sim on the server without letting the keys' functions play out on the host.</b><br>
+Print Screen<br>
 Left Windows Key (Right Windows Key will always both forward to server & open menu on client which results in sticky key on server until it is pressed again for the server)<br>
 Hold Alt and press Shift (to scroll through IMEs) (holding Shift and pressing Alt will both forward to server & enact on client)<br>
 CTRL + CapsLock / Alt + CapsLock (for Japanese IME)<br>
