@@ -29,10 +29,10 @@ The one program is used for both client & server (determined at startup). Choose
 </ol>
 <b>To close the client, click the window's X or enter 'q' in the client's console. This will electively close the server as well.</b><br>
 <b>To close only the client and leave the server running, enter 'qs' in the client's console (for "quit solo").</b><br>
-<b>To stop the server, enter 'q' in the server's console. This will crash the client if it's running.</b>
+<b>To stop the server, enter 'q' in the server's console. This will crash the client if it's running.</b><br><br>
 
-<b>To start from shortcut</b>, create a shortcut for WebsocketController_Plus.exe and right click it -> Properties -> Shortcut tab -> Target textbox should similar to below (space delimited args) (replace 192.168.1.100 with server's IP)<br>
-<b>Server: </b> "C:\fun\cpp_websocketController_Plus.exe" server 9876
+<b>To start from shortcut</b>, create a shortcut for WebsocketController_Plus.exe and right click it -> Properties -> Shortcut tab -> Target textbox should similar to below (space delimited args) (replace 192.168.1.100 with server's IP)<br><br>
+<b>Server: </b> "C:\fun\cpp_websocketController_Plus.exe" server 9876<br>
 <b>Client: </b> "C:\fun\cpp_websocketController_Plus.exe" client 9876 192.168.1.100
 
 # Negated and forwarded keys/combos
