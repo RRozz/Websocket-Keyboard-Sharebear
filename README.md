@@ -23,16 +23,20 @@ Alt + Escape<br>
 Alt + F4<br>
 
 # Limitations
-While it does forward input well and (for typing) reliably, it cannot be used to play action games because of 'resevoir latency' (see below). Because of this, rapidly pressing right,left,right,left,right,left (etc) will only result in one right. Or one left. Per half second. It does no harm but doesn't send over all key presses.<br>
-The mouse update speed is also affected by this 'resevoir latency' effect. The max FPS the mouse would update on the server's side is about 5 FPS. Regardless of the mouse scan speed setting, latency found in benchmarking, or connection method (I've always kept it ethernet-tethered), it's always 5 FPS, which leads me to believe it's a network protocol/library thing.<br>
-'Resevoir latency' is what I'm referring to as only sending input every once in a while, but combining messages accumulated up to that period. When you type: it forwards it every 0.25 seconds or so, so you will notice not only a hint of delay, but if you type quickly, multiple letters will appear at once. I believe this is why the mouse is slow, too. Because it accumulates multiple 'go here' messages for the mouse and executes them in such a small timeframe that only the last frame has meaningful impact. I think it's a thing with my networking protocol/library of choice. Didn't know it when I chose it, but I only use it for typing.<br>
-Also noteworthy is permissions: Playing a game running as administrator? Websocket Controller needs to be running as administrator. Otherwise the administrator-privileged window with focus will completely ignore the input, and you couldn't change the window without a physical device. I think the "Run program as administrator?" prompt requires system privileges (as TeamViewer runs as System and can sim controls during that period). To run as system would require either registering and starting the Websocket Controller as a service (I read there's software to convert normal PEs into services, didn't look into it yet), or you would have to have Websocket Controller inherit permissions from another program/service that's already running as system.
+<ul>
+<li>While it does forward input well and (for typing) reliably, it cannot be used to play action games because of 'resevoir latency' (see below). Because of this, rapidly pressing right,left,right,left,right,left (etc) will only result in one right. Or one left. Per half second. It does no harm but doesn't send over all key presses.</li>
+<li>The mouse update speed is also affected by this 'resevoir latency' effect. The max FPS the mouse would update on the server's side is about 5 FPS. Regardless of the mouse scan speed setting, latency found in benchmarking, or connection method (I've always kept it ethernet-tethered), it's always 5 FPS, which leads me to believe it's a network protocol/library thing.</li>
+<li>'Resevoir latency' is what I'm referring to as only sending input every once in a while, but combining messages accumulated up to that period. When you type: it forwards it every 0.25 seconds or so, so you will notice not only a hint of delay, but if you type quickly, multiple letters will appear at once. I believe this is why the mouse is slow, too. Because it accumulates multiple 'go here' messages for the mouse and executes them in such a small timeframe that only the last frame has meaningful impact. I think it's a thing with my networking protocol/library of choice. Didn't know it when I chose it, but I only use it for typing.</li>
+<li>Also noteworthy is permissions: Playing a game running as administrator? Websocket Controller needs to be running as administrator. Otherwise the administrator-privileged window with focus will completely ignore the input, and you couldn't change the window without a physical device. I think the "Run program as administrator?" prompt requires system privileges (as TeamViewer runs as System and can sim controls during that period). To run as system would require either registering and starting the Websocket Controller as a service (I read there's software to convert normal PEs into services, didn't look into it yet), or you would have to have Websocket Controller inherit permissions from another program/service that's already running as system.</li>
+</ul>
 
 
 # Who would most benefit from it
-Someone that wants to type and play non-actioney/interface-based games would get the most fulfillment.<br>
-Someone who has a desktop to their side and a laptop in front of them, and wants to control both with one keyboard would get the most convenience.<br>
-Someone who wants to control a computer with a large screen on the other side of the room from a small laptop in the corner would find it useful as well.<br>
+<ol>
+<li>Someone that wants to type and play non-actioney/interface-based games would get the most fulfillment.</li>
+<li>Someone who has a desktop to their side and a laptop in front of them, and wants to control both with one keyboard would get the most convenience.</li>
+<li>Someone who wants to control a computer with a large screen on the other side of the room from a small laptop in the corner would find it useful as well.</li>
+</ol>
 
 
 # Testing environment
