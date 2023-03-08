@@ -9,7 +9,9 @@ The one program is used for both client & server (determined at startup). Choose
 <li>Forward keyboard strokes (window must have focus)</li>
 <li>Forward mouse movement and clicks/scrolls (window must have focus)</li>
 <li>Conduct a primitive latency benchmark (enter 'bm' in client console, results are in server client)</li>
-<li>Send ASCII in the clipboard of client the to the clipboard of the server (enter 'c' in client console)</li>
+<li>Send text (unicode) in the clipboard of client the to the clipboard of the server (enter 'c' in client console)</li>
+<li>Also can press CTRL+SHIFT+V in the client window to copy the client clipboard to the server clipboard</li>
+<li>Press Right Windows Key to minimize client window / restore and focus client window</li>
 </ul>
 
 # How to Start
@@ -38,7 +40,7 @@ The one program is used for both client & server (determined at startup). Choose
 # Negated and forwarded keys/combos
 <b>While the client window has focus, the client will forward these keys to sim on the server without letting the keys' functions play out on the host.</b><br>
 Print Screen<br>
-Left Windows Key (Right Windows Key will always both forward to server & open menu on client which results in sticky key on server until it is pressed again for the server)<br>
+Left Windows Key & Right Windows Keybr>
 Hold Alt and press Shift (to scroll through IMEs) (holding Shift and pressing Alt will both forward to server & enact on client)<br>
 CTRL + CapsLock / Alt + CapsLock (for Japanese IME)<br>
 CTRL + Escape<br>
