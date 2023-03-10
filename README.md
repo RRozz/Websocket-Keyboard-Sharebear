@@ -11,6 +11,7 @@ The one program is used for both client & server (determined at startup). Choose
 <li>Conduct a primitive latency benchmark (enter 'bm' in client console, results are in server client)</li>
 <li>Send text (unicode) in the clipboard of client the to the clipboard of the server (enter 'c' in client console)</li>
 <li>Also can press CTRL+SHIFT+V in the client window to copy the client clipboard to the server clipboard</li>
+<li>Also can press CTRL+SHIFT+C in the client window to copy the server clipboard to the client clipboard</li>
 <li>Press Right Windows Key to minimize client window / restore and focus client window</li>
 </ul>
 
