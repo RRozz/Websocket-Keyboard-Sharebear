@@ -26,6 +26,15 @@ using websocketpp::lib::bind;
 typedef server::message_ptr message_ptr;
 typedef websocketpp::config::asio_client::message_type::ptr message_ptr_c;
 
+// TIP: to start with command-line arguments in debugging, go to and change:
+// Project proerties -> Debugging -> Command Line Arguments
+
+// P.S. this project seemed to make Windows Search Indexer act funny (kept restarting and taking 50% cpu)
+// so i just disabled the Windows Search service
+
+// NOTE TO SELF: if sending a message with opcode ::text, it will crash the client if the message contains ? or / or ;, etc.
+// it seems to be safe to use ::binary
+
 /**
 SO websocket controller packet messages
 key: 00 00/01(down/up)      00~FF (the message... just down-cast WPARAM into char... all key codes are under FF)
@@ -35,6 +44,7 @@ mouse click: 03 00/01(down/up)      00~02(left = 0, right = 1, middle = 2)
 mouse wheel: 04 00/01(roll down/up) 00~FF (potency / how many roll increments)
 === PLUS ===
 clipboard text: 05  any and all clipboard text (as hex) starting from second byte
+special stuff: 06 xx (includes server clipboard copy request, quit, benchmark, etc), xx is the second byte specifying the action
 **/
 
 // how many times per second client will scan for mouse position
@@ -162,7 +172,7 @@ wstring fromClipboard(){ // now with wchar_t support
 		HANDLE hData = GetClipboardData(CF_UNICODETEXT);
 		if (hData != nullptr){
 			wchar_t *pszText = static_cast<wchar_t*>(GlobalLock(hData));
-			wcout << L"pszText = " << pszText << endl;
+			//wcout << L"pszText = " << pszText << endl;
 			if (pszText != nullptr){
 				out = pszText;
 			}
@@ -401,7 +411,7 @@ void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg) {
 		else if (in[0] == 5){
 			wstring new_clipboard = decodeHex(in.substr(1));
 			toClipboard(new_clipboard);
-			cout << "received clipboard data" << endl;
+			//cout << "received clipboard data" << endl;
 		}
 		else if (in[0] == 6){
 			// 6 was supposed to be special operations like ALT+TAB but i don't think i ever used it, just sent TAB when ALT was down
@@ -491,6 +501,14 @@ void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg) {
 
 				WriteConsoleInput(hConIn, ir, 3, &dwTmp);
 				cout << "quit done" << endl;
+			}else if(in[1] == 3){ // client requesting clipboard from the server
+				// to send a response from server to client, we get a connection from the server based on the handle
+				server::connection_ptr con = s->get_con_from_hdl(hdl);
+				string response = "";
+				response += (char)5;
+				response += encodeHex(fromClipboard());
+				con->send(response, websocketpp::frame::opcode::binary);
+				//cout << "Sent clipboard to client." << endl;
 			}
 		}
 		else{
@@ -529,12 +547,15 @@ void client_on_message(client* c, websocketpp::connection_hdl hdl, message_ptr_c
 		if (in[0] == 5){
 			server_to_client_clipboard = true;
 			toClipboard( decodeHex( in.substr(1) ) );
-			cout << "received clipboard text from server" << endl;
+			//cout << "received clipboard text from server" << endl;
 			server_to_client_clipboard = false;
 		}
 		else{
 			cout << "Received unknown message from server" << endl;
 		}
+	}
+	else{
+		cout << "message too short, only : " << inl << endl; // RESUME remove after getting ctrl-shift-c working
 	}
 
 	websocketpp::lib::error_code ec;
@@ -1110,7 +1131,7 @@ int main(int argc, const char* argv[]){
 						std::string msg = "";
 						msg += (char)6;
 						msg += (char)1;
-						msg += "123";
+						msg += "123"; // message padding, msg needs to be 3 charrs
 						cout << "starging benchmark..." << endl;
 						for (int xint = 0; xint < 5; xint++){
 							cout << "packet " << xint << " sent" << endl;
@@ -1121,9 +1142,6 @@ int main(int argc, const char* argv[]){
 					else{
 						cout << "Please use the client to start the benchmark" << endl;
 					}
-				}
-				else if (in == "bmx"){ // to test latency of the function to get time from w indows
-
 				}
 				else if (in == "mo-cap"){
 					if (clientMode){
@@ -1507,7 +1525,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 									HANDLE hData = GetClipboardData(CF_TEXT); // CF_UNICODETEXT will only put 1 char into the char *pszText, CF_TEXT will work normally
 									if (hData != nullptr){
 										char *pszText = static_cast<char*>(GlobalLock(hData));
-										cout << "pszText = " << pszText << endl;
+										//cout << "pszText = " << pszText << endl;
 										if (pszText != nullptr){
 											string clipboard_text(pszText);
 											string msg = "";
@@ -1725,6 +1743,22 @@ LRESULT CALLBACK LowLevelKeyboardProc(INT nCode, WPARAM wParam, LPARAM lParam){
 								  //cout << "Clipboard data sent to server!" << endl;
 							  }
 							  return 1; // don't forward for V up/down with CTRL+SHIFT, avoid sticky keys
+						  }
+					  }
+					  
+					  if (pkbhs->vkCode == 0x43){ // C key, for CTRL+SHIFT+C getting server clipboard
+						  BOOL bShiftKeyDown = GetAsyncKeyState(VK_SHIFT) >> ((sizeof(SHORT)* 8) - 1);
+						  if (bShiftKeyDown && bControlKeyDown){
+							  if (wParam == WM_KEYUP){
+								  // get server clipboard sent to client
+								  string msg = "";
+								  msg += (char)6;
+								  msg += (char)3;
+								  msg += (char)0; // need 3rd byte so server receives message. Otherwise it will think it's too small
+								  c.send(connHdl, msg, websocketpp::frame::opcode::binary);
+								  //cout << "Clipboard data requested from server!" << endl;
+							  }
+							  return 1;
 						  }
 					  }
 
