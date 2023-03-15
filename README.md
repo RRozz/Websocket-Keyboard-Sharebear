@@ -78,3 +78,4 @@ I've used this setup daily since its creation a couple years ago.<br>
 I've read that the references to mouse_event() (and maybe keybd_event()) would need to be changed to SendInput() for use with Windows 10.
 
 P.S. source code is littered with comments of notes to myself / debug residue, please don't mind. :)
+<b>P.S.S. I believe the 'resevoir latency' I was referring to is possibly due to its use of ASIO (ASynchronous networking I/O)</b>
